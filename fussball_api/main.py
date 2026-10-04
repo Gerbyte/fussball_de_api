@@ -1,3 +1,4 @@
+from pathlib import Path
 import asyncio
 import logging
 from typing import List
@@ -51,7 +52,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.mount("/examples", StaticFiles(directory="./examples"), name="examples")
+EXAMPLES_DIR = Path(__file__).resolve().parent.parent / "examples"
+
+app.mount(
+    "/examples",
+    StaticFiles(directory=str(EXAMPLES_DIR)),
+    name="examples",
+)
 
 
 async def prewarm_cache():
